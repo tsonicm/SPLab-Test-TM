@@ -7,16 +7,27 @@ import lombok.Setter;
 
 public class Message {
     @Getter @Setter
-    public String message;
+    private String message;
     @Getter @Setter
-    public String house;
+    private String house;
     @Getter @Setter
-    public Date date;
+    private Date date;
+
+    private House h;
 
     public Message(String message, String house, Date date) {
         this.message = message;
         this.house = house;
         this.date = date;
+    }
+
+    public String decodeMsg() {
+        if (house.equals("atreides")) {
+            h = new Atreides();
+        } else if (house.equals("harkonnen")) {
+            h = new Harkonnen();
+        }
+        return h.decode(message);
     }
 
     public Message() {

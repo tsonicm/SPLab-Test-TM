@@ -1,9 +1,9 @@
 package com.example.demo;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import com.example.demo.Models.Message;
-import com.example.demo.Utils.deCypher;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -19,15 +19,14 @@ public class DemoApplication {
 		try {
 			URL url = new URL("file:src/messages.json");
 			List<Message> messages = mapper.readValue(url, new TypeReference<List<Message>>(){});
-			messages.forEach((message) -> {
-				if(message.house.equals("atreides")) {
-					message.message = deCypher.deCypherMsg(message.message, true);
-				} else {
-					message.message = deCypher.deCypherMsg(message.message, false);
-				}
+			for (Message message : messages) {
 				System.out.println(message);
+			}
+
+			messages.forEach(message -> {
+				System.out.println(message.decodeMsg());
 			});
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
